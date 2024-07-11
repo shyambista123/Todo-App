@@ -77,9 +77,13 @@ class _TodoListPageState extends State<TodoListPage> {
       floatingActionButton: FloatingActionButton.extended(onPressed: navigateToAddPage, label: const Text("Add todo")),
     );
   }
-  void navigateToAddPage(){
+  Future<void> navigateToAddPage()async{
     final route = MaterialPageRoute(builder: (context)=>AddTodoPage());
-    Navigator.push(context, route);
+    await  Navigator.push(context, route);
+    setState(() {
+      isLoading = true;
+    });
+    fetchTodos(); 
   }
 
   void navigateToEditPage(){
