@@ -40,6 +40,7 @@ class _TodoListPageState extends State<TodoListPage> {
             itemBuilder: (context, index){
               final todo = todos[index] as Map;
             return ListTile(
+              leading: CircleAvatar(child: Text("${index+1}"),),
               title: Text(todo['title']),
               subtitle: Text(todo['description']),
             );
@@ -55,9 +56,6 @@ class _TodoListPageState extends State<TodoListPage> {
   }
 
   Future<void> fetchTodos() async{
-    setState(() {
-      isLoading = false;
-    }); 
     final url = "http://192.168.1.64:8080/todos";
     final uri = Uri.parse(url);
     final response = await http.get(uri);
