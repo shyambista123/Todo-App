@@ -1,0 +1,46 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "title": "Buy groceries",
+      "description": "Need to buy milk, eggs, and bread.",
+      "is_completed": false
+    },
+    {
+      "id": "2",
+      "title": "Finish project proposal",
+      "description": "Complete the project proposal draft by Friday.",
+      "is_completed": true
+    },
+    {
+      "id": "3",
+      "title": "Call mom",
+      "description": "Talk to mom about family gathering next weekend.",
+      "is_completed": false
+    },
+    {
+      "id": "4",
+      "title": "Exercise",
+      "description": "Go for a run in the evening.",
+      "is_completed": false
+    },
+    {
+      "id": "5",
+      "title": "Read book",
+      "description": "Start reading 'The Catcher in the Rye'.",
+      "is_completed": true
+    },
+    {
+      "id": "f197",
+      "title": "test",
+      "description": "test",
+      "is_completed": false
+    },
+    {
+      "id": "e6c4",
+      "title": "do",
+      "description": "FL",
+      "is_completed": false
+    }
+  ]
+}
