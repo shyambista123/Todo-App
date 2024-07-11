@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crud_app/screens/add_todo.dart';
+import 'package:crud_app/screens/edit_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,7 +36,9 @@ class _TodoListPageState extends State<TodoListPage> {
         child: Center(child: CircularProgressIndicator()),
         replacement: RefreshIndicator(
           onRefresh: fetchTodos,
-          child: ListView.builder(
+          child: todos.isEmpty
+          ? Center(child: Text("No items"))
+          : ListView.builder(
             itemCount: todos.length ,
             itemBuilder: (context, index){
               final todo = todos[index] as Map;
@@ -48,6 +51,7 @@ class _TodoListPageState extends State<TodoListPage> {
                 onSelected: (value){
                   if(value=='edit'){
                     //open edit page 
+                    navigateToEditPage();
                   }
                   else if(value=='delete'){
                     //delete and refresh the page / remove th todo 
@@ -75,6 +79,11 @@ class _TodoListPageState extends State<TodoListPage> {
   }
   void navigateToAddPage(){
     final route = MaterialPageRoute(builder: (context)=>AddTodoPage());
+    Navigator.push(context, route);
+  }
+
+  void navigateToEditPage(){
+    final route = MaterialPageRoute(builder: (context)=>EditTodoPage());
     Navigator.push(context, route);
   }
 
