@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:crud_app/screens/todo_list.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,7 +21,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
       appBar: AppBar(
         title: const Text("Add Todo", style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 233, 31, 31),
+        backgroundColor: Colors.deepPurple,
       ),
       body: ListView(padding: EdgeInsets.all(20), children: [
         TextField(
@@ -57,6 +58,14 @@ class _AddTodoPageState extends State<AddTodoPage> {
       titleController.text = '';
       descriptionController.text = '';
       showSuccessMessage('Creation Success');
+
+      // naviagte to the todo list page
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => TodoListPage(), // Replace TodoListPage with your actual list page
+        ),
+      );
+
     } else {
       showErrorMessage("Creation Error");
     }

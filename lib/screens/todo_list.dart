@@ -28,7 +28,7 @@ class _TodoListPageState extends State<TodoListPage> {
       appBar: AppBar(
         title: const Text("Todo List", style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 233, 31, 31),
+        backgroundColor: Colors.deepPurple,
       ),
       body: Visibility(
         visible: isLoading,
@@ -84,11 +84,15 @@ class _TodoListPageState extends State<TodoListPage> {
     final uri = Uri.parse(url);
     final response = await http.delete(uri); 
     if(response.statusCode==200){
-
     //remove from the list 
+    final filtered = todos.where((element) =>element['id']!=id).toList();
+    setState(() {
+      todos = filtered;
+    });
     }
     else{
       //show error message
+      showErrorMessage("Error while deleting todo");
     }
   }
 
@@ -108,5 +112,12 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  void showErrorMessage(String message) {
+    SnackBar snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
