@@ -43,6 +43,12 @@ class _TodoListPageState extends State<TodoListPage> {
               leading: CircleAvatar(child: Text("${index+1}"),),
               title: Text(todo['title']),
               subtitle: Text(todo['description']),
+              trailing: PopupMenuButton(itemBuilder: (context){
+                return [
+                  PopupMenuItem(child:  Text("Edit")),
+                  PopupMenuItem(child:  Text("Delete"))
+                ];
+              },),
             );
           }),
         ),
