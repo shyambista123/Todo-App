@@ -29,24 +29,6 @@
       "title": "Read book",
       "description": "Start reading 'The Catcher in the Rye'.",
       "is_completed": true
-    },
-    {
-      "id": "f197",
-      "title": "test",
-      "description": "test",
-      "is_completed": false
-    },
-    {
-      "id": "e6c4",
-      "title": "do",
-      "description": "FL",
-      "is_completed": false
-    },
-    {
-      "id": "1c05",
-      "title": "new todo ",
-      "description": "description",
-      "is_completed": false
     }
   ]
 }

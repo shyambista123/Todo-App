@@ -39,14 +39,31 @@ class _TodoListPageState extends State<TodoListPage> {
             itemCount: todos.length ,
             itemBuilder: (context, index){
               final todo = todos[index] as Map;
+              final id = todo['id'] as String;
             return ListTile(
               leading: CircleAvatar(child: Text("${index+1}"),),
               title: Text(todo['title']),
               subtitle: Text(todo['description']),
-              trailing: PopupMenuButton(itemBuilder: (context){
-                return [
-                  PopupMenuItem(child:  Text("Edit")),
-                  PopupMenuItem(child:  Text("Delete"))
+              trailing: PopupMenuButton(
+                onSelected: (value){
+                  if(value=='edit'){
+                    //open edit page 
+                  }
+                  else if(value=='delete'){
+                    //delete and refresh the page / remove th todo 
+                    deleteById(id);
+                  }
+                },
+                itemBuilder: (context){
+                return const [
+                  PopupMenuItem(
+                    value: 'edit',
+                    child:  Text("Edit")
+                    ),
+                  PopupMenuItem(
+                    value: 'delete',
+                    child:  Text("Delete"),
+                    )
                 ];
               },),
             );
@@ -59,6 +76,20 @@ class _TodoListPageState extends State<TodoListPage> {
   void navigateToAddPage(){
     final route = MaterialPageRoute(builder: (context)=>AddTodoPage());
     Navigator.push(context, route);
+  }
+
+  Future<void> deleteById(String id) async{
+    //delete the item 
+    final url = "http://192.168.1.64:8080/todos/$id";
+    final uri = Uri.parse(url);
+    final response = await http.delete(uri); 
+    if(response.statusCode==200){
+
+    //remove from the list 
+    }
+    else{
+      //show error message
+    }
   }
 
   Future<void> fetchTodos() async{
