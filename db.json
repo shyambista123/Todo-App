@@ -25,10 +25,10 @@
       "is_completed": false
     },
     {
-      "id": "5",
-      "title": "Read book",
-      "description": "Start reading 'The Catcher in the Rye'.",
-      "is_completed": true
+      "title": "New todo",
+      "description": "Testing all functionality at the end.",
+      "is_completed": false,
+      "id": "2afc"
     }
   ]
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crud_app/screens/todo_list.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +21,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
   void initState() {
     super.initState();
     final todo = widget.todo;
-    if(todo != null){
+    if (todo != null) {
       isEdit = true;
       final title = todo['title'];
       final description = todo['description'];
@@ -37,31 +36,58 @@ class _AddTodoPageState extends State<AddTodoPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          isEdit ? "Edit Todo" : "Add Todo", style: TextStyle(color: Colors.white)),
+          isEdit ? "Edit Todo" : "Add Todo",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: Colors.deepPurple,
       ),
-      body: ListView(padding: EdgeInsets.all(20), children: [
-        TextField(
-          decoration: InputDecoration(hintText: "Title"),
-          controller: titleController,
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                labelText: "Title",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              controller: titleController,
+            ),
+            SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                labelText: "Description",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              controller: descriptionController,
+              keyboardType: TextInputType.multiline,
+              minLines: 5,
+              maxLines: 8,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: isEdit ? updateData : submitData,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                textStyle: TextStyle(fontSize: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              child: Text(isEdit ? "Update" : "Save", style: TextStyle(color: Colors.white)),
+            )
+          ],
         ),
-        TextField(
-            decoration: InputDecoration(hintText: "Description"),
-            controller: descriptionController,
-            keyboardType: TextInputType.multiline,
-            minLines: 5,
-            maxLines: 8),
-        ElevatedButton(onPressed: isEdit ? updateData : submitData, child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(isEdit ? "Update" : "Save"),
-        ))
-      ]),
+      ),
     );
   }
 
   Future<void> submitData() async {
-    // Get the data from form
     final title = titleController.text;
     final description = descriptionController.text;
 
@@ -70,32 +96,27 @@ class _AddTodoPageState extends State<AddTodoPage> {
       "description": description,
       "is_completed": false
     };
-    // submit that data to the server
+
     final url = "http://192.168.1.64:8080/todos";
     final uri = Uri.parse(url);
     final response = await http.post(uri,
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 201) {
-      titleController.text = '';
-      descriptionController.text = '';
-      showSuccessMessage('Creation Success');
+      showSuccessMessage('Todo Created Successfully');
 
-      // naviagte to the todo list page
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => TodoListPage(), // Replace TodoListPage with your actual list page
+          builder: (context) => TodoListPage(),
         ),
       );
-
     } else {
-      showErrorMessage("Creation Error");
+      showErrorMessage("Failed to Create Todo");
     }
   }
 
-  Future<void> updateData()async{
+  Future<void> updateData() async {
     final todo = widget.todo;
-    if(todo == null){
-      //return if null or we can also print something in the console
+    if (todo == null) {
       return;
     }
     final title = titleController.text;
@@ -106,41 +127,37 @@ class _AddTodoPageState extends State<AddTodoPage> {
       "description": description,
       "is_completed": false
     };
-    // submit that data to the server
+
     final url = "http://192.168.1.64:8080/todos/$id";
     final uri = Uri.parse(url);
     final response = await http.put(uri,
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
-      titleController.text = '';
-      descriptionController.text = '';
-      showSuccessMessage('Updation Success');
+      showSuccessMessage('Todo Updated Successfully');
 
-      // naviagte to the todo list page
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => TodoListPage(), // Replace TodoListPage with your actual list page
+          builder: (context) => TodoListPage(),
         ),
       );
-
     } else {
-      showErrorMessage("Updation Error");
+      showErrorMessage("Failed to Update Todo");
     }
   }
-  
-  // show the success or fail message based on status
 
   void showSuccessMessage(String message) {
     SnackBar snackBar = SnackBar(
       content: Text(message),
-      backgroundColor: Colors.green);
+      backgroundColor: Colors.green,
+    );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void showErrorMessage(String message) {
     SnackBar snackBar = SnackBar(
       content: Text(message),
-      backgroundColor: Colors.red);
+      backgroundColor: Colors.red,
+    );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
