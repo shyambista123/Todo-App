@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:crud_app/screens/add_todo.dart';
-import 'package:crud_app/screens/edit_todo.dart';
+import 'package:crud_app/screens/add_edit_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -51,7 +50,7 @@ class _TodoListPageState extends State<TodoListPage> {
                 onSelected: (value){
                   if(value=='edit'){
                     //open edit page 
-                    navigateToEditPage();
+                    navigateToEditPage(todo);
                   }
                   else if(value=='delete'){
                     //delete and refresh the page / remove th todo 
@@ -86,9 +85,13 @@ class _TodoListPageState extends State<TodoListPage> {
     fetchTodos(); 
   }
 
-  void navigateToEditPage(){
-    final route = MaterialPageRoute(builder: (context)=>EditTodoPage());
-    Navigator.push(context, route);
+  Future<void> navigateToEditPage(Map todo)async{
+    final route = MaterialPageRoute(builder: (context)=>AddTodoPage(todo: todo));
+    await Navigator.push(context, route);
+    setState(() {
+      isLoading = true;
+    });
+    fetchTodos(); 
   }
 
   Future<void> deleteById(String id) async{

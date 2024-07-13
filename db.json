@@ -1,10 +1,10 @@
 {
   "todos": [
     {
-      "id": "1",
       "title": "Buy groceries",
       "description": "Need to buy milk, eggs, and bread.",
-      "is_completed": false
+      "is_completed": false,
+      "id": "1"
     },
     {
       "id": "2",
