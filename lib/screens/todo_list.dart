@@ -125,7 +125,9 @@ class _TodoListPageState extends State<TodoListPage> {
   }
 
   Future<void> deleteById(String id) async {
+    // final url = "http://192.168.1.30:8080/todos/$id";
     final url = "http://192.168.1.64:8080/todos/$id";
+
     final uri = Uri.parse(url);
     final response = await http.delete(uri);
     if (response.statusCode == 200) {
@@ -140,6 +142,7 @@ class _TodoListPageState extends State<TodoListPage> {
 
   Future<void> fetchTodos() async {
     final url = "http://192.168.1.64:8080/todos";
+    // final url = "http://192.168.1.30:8080/todos";
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     if (response.statusCode == 200) {

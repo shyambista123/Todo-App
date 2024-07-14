@@ -17,9 +17,16 @@ class _AddTodoPageState extends State<AddTodoPage> {
 
   bool isEdit = false;
 
+  // Define url and uri as class-level variables
+  final String baseUrl = "http://192.168.1.64:8080/todos";
+  // final String baseUrl = "http://192.168.1.30:8080/todos";
+  late Uri baseUri;
+
   @override
   void initState() {
     super.initState();
+    baseUri = Uri.parse(baseUrl);
+
     final todo = widget.todo;
     if (todo != null) {
       isEdit = true;
@@ -97,9 +104,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
       "is_completed": false
     };
 
-    final url = "http://192.168.1.64:8080/todos";
-    final uri = Uri.parse(url);
-    final response = await http.post(uri,
+    final response = await http.post(baseUri,
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 201) {
       showSuccessMessage('Todo Created Successfully');
@@ -128,9 +133,9 @@ class _AddTodoPageState extends State<AddTodoPage> {
       "is_completed": false
     };
 
-    final url = "http://192.168.1.64:8080/todos/$id";
-    final uri = Uri.parse(url);
-    final response = await http.put(uri,
+    final updateUrl = "$baseUrl/$id";
+    final updateUri = Uri.parse(updateUrl);
+    final response = await http.put(updateUri,
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
       showSuccessMessage('Todo Updated Successfully');
